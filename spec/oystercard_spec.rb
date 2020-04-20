@@ -2,19 +2,14 @@ require 'oystercard'
 
 describe Oystercard do
 
-  before(:each) { subject.top_up(5) }
-  
-  it '#balence of the new card should be equal 0' do
-    expect(subject.balance).to eq 5
-  end
+  before(:each) { subject.top_up(Oystercard::MINIMUM_VALUE) }
 
   it '#top_up should be able to add to the balance' do
-    expect(subject.balance).to eq 5
+    expect(subject.balance).to eq Oystercard::MINIMUM_VALUE
   end
 
   it '#top_up should able to add to curent balnce' do
-    2.times { subject.top_up(15) }
-    expect(subject.balance).to eq 35
+    expect { 2.times { subject.top_up(15) } }.to change{ subject.balance }.by(30)
   end
 
   it 'should have balance limit of 90' do
@@ -23,7 +18,7 @@ describe Oystercard do
   end
 
   it 'should be able to #deduct from balance' do
-    expect(subject.deduct(5)).to eq 0
+    expect(subject.deduct(Oystercard::MINIMUM_VALUE)).to eq 0
   end
 
   it { is_expected.to respond_to :in_journey }
@@ -43,9 +38,13 @@ describe Oystercard do
   end
 
   it 'should have a minimum of a 1£ when #touch_in' do 
-    subject.deduct(5)
+    subject.deduct(Oystercard::MINIMUM_VALUE)
     message = "Balance bellow minimum"
     expect { subject.touch_in }.to raise_error message
+  end
+
+  it 'should be able to charge for the journey' do 
+    expect { subject.touch_out }.to change{ subject.balance }.by(-Oystercard::MINIMUM_VALUE)
   end
 
 end
