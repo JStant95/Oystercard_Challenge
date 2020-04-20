@@ -28,23 +28,28 @@ describe Oystercard do
   end
 
   it 'should change @in_journey to true when #touch_in' do
-    subject.touch_in  
+    subject.touch_in 'station'
     expect(subject.in_journey).to eq true 
   end
 
   it 'should change @in_journey to false when #touch_out' do
-    subject.touch_in
+    subject.touch_in "station"
     expect(subject.touch_out).to eq false
   end
 
   it 'should have a minimum of a 1£ when #touch_in' do 
     subject.deduct(Oystercard::MINIMUM_VALUE)
     message = "Balance bellow minimum"
-    expect { subject.touch_in }.to raise_error message
+    expect { subject.touch_in("station") }.to raise_error message
   end
 
   it 'should be able to charge for the journey' do 
     expect { subject.touch_out }.to change{ subject.balance }.by(-Oystercard::MINIMUM_VALUE)
+  end
+
+  it 'should know name of the station up on #touch_in' do
+    subject.touch_in("station")
+    expect(subject.entry_station).to eq("station")
   end
 
 end

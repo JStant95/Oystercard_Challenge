@@ -20,14 +20,20 @@ class Oystercard
     @balance -= value
   end
   
-  def touch_in
+  def touch_in(station)
     fail "Balance bellow minimum" if balance < MINIMUM_VALUE
+
+    @entry_station = station
     @in_journey = true
   end
   
   def touch_out
     deduct(MINIMUM_VALUE)
     @in_journey = false
+  end
+
+  def entry_station
+    @entry_station
   end
   
 end
