@@ -16,4 +16,9 @@ describe Oystercard do
     expect(subject.balance).to eq 30
   end
 
+  it 'should have balance limit of 90' do
+    message = "Balance limit reached: #{Oystercard::LIMIT}"
+    expect { subject.top_up(91) }.to raise_error message
+  end
+
 end
