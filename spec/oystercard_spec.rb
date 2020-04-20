@@ -42,4 +42,10 @@ describe Oystercard do
     expect(subject.touch_out).to eq false
   end
 
+  it 'should have a minimum of a 1£ when #touch_in' do 
+    subject.deduct(5)
+    message = "Balance bellow minimum"
+    expect { subject.touch_in }.to raise_error message
+  end
+
 end
