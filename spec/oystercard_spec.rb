@@ -6,4 +6,15 @@ describe Oystercard do
     expect(subject.balance).to eq 0
   end
 
+  it '#top_up should be able to add to the balance' do
+    subject.top_up(5)
+    expect(subject.balance).to eq 5
+  end
+
+  it '#top_up should able to add to curent balnce' do
+    subject.top_up(15)
+    subject.top_up(5)
+    expect(subject.balance).to eq 20
+  end
+
 end
