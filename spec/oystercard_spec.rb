@@ -12,9 +12,8 @@ describe Oystercard do
   end
 
   it '#top_up should able to add to curent balnce' do
-    subject.top_up(15)
-    subject.top_up(5)
-    expect(subject.balance).to eq 20
+    2.times { subject.top_up(15) }
+    expect(subject.balance).to eq 30
   end
 
 end
